@@ -5,11 +5,12 @@
 </template>
 
 <script>
+import store from "@/store";
 export default {
   name: "Headerbar",
   computed: {
     loggedIn: function() {
-      return this.$store.getters.isLoggedIn;
+      return store.getters.isLoggedIn;
     },
   },
 };

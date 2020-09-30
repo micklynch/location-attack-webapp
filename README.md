@@ -13,8 +13,8 @@ Check if user has signed in from that location in the past. If not, then the ser
 ### Front-end
 
 [x] Create login page
-[ ] Try logging in from the front-end
-[ ] Create router with restricted access to user details page
+[x] Try logging in from the front-end
+[x] Create router with restricted access to user details page
 
 ### Server
 

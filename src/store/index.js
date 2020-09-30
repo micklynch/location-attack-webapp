@@ -1,40 +1,31 @@
 import { createStore } from "vuex";
-import firebaseConfig from "../config/default";
-import firebase from "firebase/app";
 import createPersistedState from "vuex-persistedstate";
+import axios from "axios";
 
-require("firebase/auth");
-
-firebase.initializeApp(firebaseConfig);
+const APIURL = process.env.VUE_APP_SERVERURL;
 
 export default createStore({
   state: {
     loggedIn: false,
+    user: null,
   },
   mutations: {
-    setLoggedIn: function(state) {
+    setLoggedIn: function(state, user) {
       state.loggedIn = true;
-      console.log(state.loggedIn);
+      state.user = user;
     },
     setLoggedOut: function(state) {
       state.loggedIn = false;
+      state.user = null;
     },
   },
   actions: {
     async loginUser(context, credentials) {
-      try {
-        const response = await firebase
-          .auth()
-          .signInWithEmailAndPassword(
-            credentials.username,
-            credentials.password
-          );
-        context.commit("setLoggedIn");
-        console.log(response.user.uid);
+      var url = APIURL + "/login";
+      var response = await axios.post(url, credentials);
+      if (response) {
+        context.commit("setLoggedIn", response);
         return response;
-      } catch (error) {
-        console.log(error);
-        throw error;
       }
     },
     logout(context) {
@@ -44,6 +35,7 @@ export default createStore({
   modules: {},
   getters: {
     isLoggedIn: (state) => state.loggedIn,
+    getUser: (state) => state.user,
   },
   plugins: [
     createPersistedState({

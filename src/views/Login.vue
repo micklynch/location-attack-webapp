@@ -34,7 +34,6 @@ export default {
   },
   methods: {
     login: async function() {
-      console.log(this.username + " with " + this.password);
       try {
         await this.$store.dispatch("loginUser", {
           username: this.username,
