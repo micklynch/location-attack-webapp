@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <button v-if="loggedIn">Logout</button>
+    <button v-if="loggedIn" @click="logout()">Logout</button>
   </div>
 </template>
 
@@ -8,8 +8,14 @@
 import store from "@/store";
 export default {
   name: "Headerbar",
+  methods: {
+    logout: function () {
+      store.dispatch("logout");
+      this.$router.push("Login");
+    },
+  },
   computed: {
-    loggedIn: function() {
+    loggedIn: function () {
       return store.getters.isLoggedIn;
     },
   },

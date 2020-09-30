@@ -12,7 +12,7 @@ export default createStore({
   mutations: {
     setLoggedIn: function(state, user) {
       state.loggedIn = true;
-      state.user = user;
+      state.user = user.data;
     },
     setLoggedOut: function(state) {
       state.loggedIn = false;
@@ -21,12 +21,15 @@ export default createStore({
   },
   actions: {
     async loginUser(context, credentials) {
-      var url = APIURL + "/login";
-      var response = await axios.post(url, credentials);
-      if (response) {
+      var url = APIURL + "login";
+      try {
+        let response = await axios.post(url, credentials);
         context.commit("setLoggedIn", response);
-        return response;
+      } catch (error) {
+        console.log(error);
+        throw error;
       }
+      return;
     },
     logout(context) {
       context.commit("setLoggedOut");
