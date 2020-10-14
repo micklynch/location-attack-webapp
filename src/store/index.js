@@ -24,10 +24,28 @@ export default createStore({
       var url = APIURL + "login";
       try {
         let response = await axios.post(url, credentials);
-        context.commit("setLoggedIn", response);
+        switch (response.status) {
+          case 200: {
+            context.commit("setLoggedIn", response);
+            window.analytics.identify("234e234", {
+              name: "user",
+              email: response.data,
+            });
+            break;
+          }
+          case 202: {
+            throw response.data.message;
+          }
+          case 500: {
+            throw "Server issue";
+          }
+          default: {
+            throw "Unknown error";
+          }
+        }
       } catch (error) {
         console.log(error);
-        throw error;
+        throw "Login error";
       }
       return;
     },
