@@ -27,10 +27,6 @@ export default createStore({
         switch (response.status) {
           case 200: {
             context.commit("setLoggedIn", response);
-            window.analytics.identify("234e234", {
-              name: "user",
-              email: response.data,
-            });
             break;
           }
           case 202: {
