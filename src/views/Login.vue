@@ -33,15 +33,23 @@ export default {
     };
   },
   methods: {
-    login: async function() {
+    login: async function () {
       try {
         await this.$store.dispatch("loginUser", {
           username: this.username,
           password: this.password,
         });
+        window.analytics.identify("234e234", {
+          name: this.username,
+          email: this.username,
+        });
+        window.analytics.track({
+          event: "Client side",
+          username: this.username,
+        });
         this.$router.push("About");
       } catch (error) {
-        this.error = "Error in logging in";
+        this.error = error;
       }
     },
   },
