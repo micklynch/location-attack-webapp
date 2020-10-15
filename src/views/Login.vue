@@ -43,10 +43,6 @@ export default {
           name: this.username,
           email: this.username,
         });
-        window.analytics.track({
-          event: "Client side",
-          username: this.username,
-        });
         this.$router.push("About");
       } catch (error) {
         this.error = error;

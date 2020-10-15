@@ -11,6 +11,10 @@ export default {
   methods: {
     logout: function () {
       store.dispatch("logout");
+      window.analytics.track({
+        event: "Logout",
+        username: "User 123",
+      });
       this.$router.push("Login");
     },
   },
